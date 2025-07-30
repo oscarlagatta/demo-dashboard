@@ -13,6 +13,7 @@ import {
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
+  MarkerType,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
@@ -38,7 +39,18 @@ export default function FlowDiagram() {
     [setEdges],
   )
   const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge({ ...connection, animated: true, type: "smoothstep" }, eds)),
+    (connection) =>
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...connection,
+            animated: true,
+            type: "smoothstep",
+            markerEnd: { type: MarkerType.ArrowClosed, color: "#6b7280" },
+          },
+          eds,
+        ),
+      ),
     [setEdges],
   )
 

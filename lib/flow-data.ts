@@ -1,4 +1,4 @@
-import type { Node, Edge } from "@xyflow/react"
+import { type Node, type Edge, MarkerType } from "@xyflow/react"
 
 export const initialNodes: Node[] = [
   // Background Nodes
@@ -208,5 +208,10 @@ export const initialEdges: Edge[] = [
     target: "gpo",
     type: "smoothstep",
     animated: true,
+    style: { stroke: "#6b7280", strokeWidth: 2 },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: "#6b7280",
+    },
   },
 ]
