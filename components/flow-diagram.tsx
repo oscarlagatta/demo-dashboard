@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import ReactFlow, {
+import {
+  ReactFlow,
   Background,
   Controls,
   addEdge,
@@ -12,8 +13,8 @@ import ReactFlow, {
   type OnConnect,
   type OnNodesChange,
   type OnEdgesChange,
-} from "reactflow"
-import "reactflow/dist/style.css"
+} from "@xyflow/react"
+import "@xyflow/react/dist/style.css"
 
 import { initialNodes, initialEdges } from "@/lib/flow-data"
 import CustomNode from "./custom-node"

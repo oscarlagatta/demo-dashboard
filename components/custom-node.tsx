@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { Handle, Position, type NodeProps } from "reactflow"
+import { Handle, Position, type NodeProps } from "@xyflow/react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
