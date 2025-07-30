@@ -1,303 +1,175 @@
 import { type Node, type Edge, MarkerType } from "@xyflow/react"
+import apiData from "./api-data.json"
 
 // Define a custom type for our application's node data, which uses parentId
 export type AppNode = Omit<Node, "parentNode"> & {
   parentId?: string
 }
 
-export const initialNodes: AppNode[] = [
-  // Background Nodes
+// --- Static Section Definitions ---
+const backgroundNodes: AppNode[] = [
   {
     id: "bg-origination",
     type: "background",
     position: { x: 0, y: 0 },
-    data: { title: "Origination", color: "bg-sky-50/50 border-sky-200" },
+    data: { title: "Origination" },
     draggable: false,
     selectable: false,
     zIndex: -1,
-    style: { width: "350px", height: "820px" },
+    style: { width: "350px", height: "960px" },
   },
   {
     id: "bg-validation",
     type: "background",
     position: { x: 350, y: 0 },
-    data: {
-      title: "Payment Validation and Routing",
-      color: "bg-green-50/50 border-green-200",
-    },
+    data: { title: "Payment Validation and Routing" },
     draggable: false,
     selectable: false,
     zIndex: -1,
-    style: { width: "350px", height: "820px" },
+    style: { width: "350px", height: "960px" },
   },
   {
     id: "bg-middleware",
     type: "background",
     position: { x: 700, y: 0 },
-    data: { title: "Middleware", color: "bg-amber-50/50 border-amber-200" },
+    data: { title: "Middleware" },
     draggable: false,
     selectable: false,
     zIndex: -1,
-    style: { width: "450px", height: "820px" },
+    style: { width: "450px", height: "960px" },
   },
   {
     id: "bg-processing",
     type: "background",
     position: { x: 1150, y: 0 },
-    data: {
-      title: "Payment Processing, Sanctions & Investigation",
-      color: "bg-rose-50/50 border-rose-200",
-    },
+    data: { title: "Payment Processing, Sanctions & Investigation" },
     draggable: false,
     selectable: false,
     zIndex: -1,
-    style: { width: "500px", height: "820px" },
-  },
-
-  // Origination Nodes
-  {
-    id: "swift-gateway",
-    type: "custom",
-    position: { x: 50, y: 100 },
-    data: { title: "Swift Gateway", subtext: "AIT 11554" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-  {
-    id: "loan-iq",
-    type: "custom",
-    position: { x: 50, y: 220 },
-    data: { title: "Loan IQ", subtext: "AIT 48581" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-  {
-    id: "cashpro-mobile",
-    type: "custom",
-    position: { x: 50, y: 340 },
-    data: { title: "CashPro Mobile", subtext: "AIT 41107" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-  {
-    id: "cpo-api-gateway",
-    type: "custom",
-    position: { x: 50, y: 460 },
-    data: { title: "CPO API Gateway", subtext: "AIT 11697" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-  {
-    id: "b2bi",
-    type: "custom",
-    position: { x: 50, y: 580 },
-    data: { title: "B2Bi", subtext: "AIT 54071" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-  {
-    id: "ecs-origination",
-    type: "custom",
-    position: { x: 50, y: 700 },
-    data: { title: "ECS", subtext: "AIT 634" },
-    parentId: "bg-origination",
-    extent: "parent",
-  },
-
-  // Payment Validation and Routing Nodes
-  {
-    id: "swift-alliance",
-    type: "custom",
-    position: { x: 425, y: 100 },
-    data: { title: "Swift Alliance", subtext: "AIT 512" },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-  {
-    id: "gpo",
-    type: "custom",
-    position: { x: 425, y: 220 },
-    data: { title: "GPO", subtext: "AIT 70199" },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-  {
-    id: "cashpro-payments",
-    type: "custom",
-    position: { x: 425, y: 340 },
-    data: {
-      title: "CashPro Payments (International & Domestic)",
-      subtext: "AIT 28960",
-    },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-  {
-    id: "frp-us",
-    type: "custom",
-    position: { x: 425, y: 480 },
-    data: { title: "FRP US", subtext: "AIT 15227" },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-  {
-    id: "psh",
-    type: "custom",
-    position: { x: 425, y: 590 },
-    data: { title: "PSH", subtext: "AIT 31427" },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-  {
-    id: "ecs-validation",
-    type: "custom",
-    position: { x: 425, y: 700 },
-    data: { title: "ECS", subtext: "AIT 834" },
-    parentId: "bg-validation",
-    extent: "parent",
-  },
-
-  // Middleware Nodes
-  {
-    id: "rpi",
-    type: "custom",
-    position: { x: 750, y: 220 },
-    data: { title: "RPI", subtext: "AIT 60745" },
-    parentId: "bg-middleware",
-    extent: "parent",
-  },
-  {
-    id: "mrp",
-    type: "custom",
-    position: { x: 950, y: 400 },
-    data: { title: "MRP", subtext: "AIT 4679" },
-    parentId: "bg-middleware",
-    extent: "parent",
-  },
-
-  // Payment Processing, Sanctions & Investigation Nodes
-  {
-    id: "gbs-aries",
-    type: "custom",
-    position: { x: 1200, y: 160 },
-    data: { title: "GBS Aries", subtext: "AIT 515" },
-    parentId: "bg-processing",
-    extent: "parent",
-  },
-  {
-    id: "gtms-limits",
-    type: "custom",
-    position: { x: 1420, y: 160 },
-    data: { title: "GTMS (Limits)", subtext: "AIT 62686" },
-    parentId: "bg-processing",
-    extent: "parent",
-  },
-  {
-    id: "ets-sanctions",
-    type: "custom",
-    position: { x: 1310, y: 300 },
-    data: { title: "ETS (Sanctions)", subtext: "AIT 46951" },
-    parentId: "bg-processing",
-    extent: "parent",
-  },
-  {
-    id: "gfd-fraud",
-    type: "custom",
-    position: { x: 1310, y: 420 },
-    data: { title: "GFD (Fraud)", subtext: "AIT 73929" },
-    parentId: "bg-processing",
-    extent: "parent",
-  },
-  {
-    id: "wtx-rgw",
-    type: "custom",
-    position: { x: 1200, y: 580 },
-    data: { title: "WTX / RGW", subtext: "AIT 1901 / 882" },
-    parentId: "bg-processing",
-    extent: "parent",
-  },
-  {
-    id: "rtfp",
-    type: "custom",
-    position: { x: 1200, y: 700 },
-    data: { title: "RTFP", subtext: "AIT 74014" },
-    parentId: "bg-processing",
-    extent: "parent",
+    style: { width: "500px", height: "960px" },
   },
 ]
 
-const edgeStyle = {
-  stroke: "#6b7280",
-  strokeWidth: 2,
+// --- Data Transformation Logic ---
+
+const classToParentId: Record<string, string> = {
+  origination: "bg-origination",
+  "payment validation and routing": "bg-validation",
+  middleware: "bg-middleware",
+  "payment processing, sanctions and investigation": "bg-processing",
 }
 
-const markerEnd = {
-  type: MarkerType.ArrowClosed,
-  color: "#6b7280",
+const sectionPositions: Record<string, { baseX: number; positions: { x: number; y: number }[] }> = {
+  "bg-origination": {
+    baseX: 50,
+    positions: [
+      { x: 50, y: 100 },
+      { x: 50, y: 220 },
+      { x: 50, y: 340 },
+      { x: 50, y: 460 },
+      { x: 50, y: 580 },
+      { x: 50, y: 700 },
+    ],
+  },
+  "bg-validation": {
+    baseX: 425,
+    positions: [
+      { x: 425, y: 100 },
+      { x: 425, y: 220 },
+      { x: 425, y: 340 },
+      { x: 425, y: 480 },
+      { x: 425, y: 590 },
+      { x: 425, y: 700 },
+    ],
+  },
+  "bg-middleware": {
+    baseX: 750,
+    positions: [
+      { x: 750, y: 220 },
+      { x: 950, y: 400 },
+    ],
+  },
+  "bg-processing": {
+    baseX: 1200,
+    positions: [
+      { x: 1200, y: 160 },
+      { x: 1420, y: 160 },
+      { x: 1310, y: 300 },
+      { x: 1310, y: 420 },
+      { x: 1200, y: 580 },
+      { x: 1200, y: 700 },
+      { x: 1200, y: 820 },
+    ],
+  },
 }
 
-export const initialEdges: Edge[] = [
-  {
-    id: "e-swift-gateway-swift-alliance",
-    source: "swift-gateway",
-    target: "swift-alliance",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-cpo-api-gateway-gpo",
-    source: "cpo-api-gateway",
-    target: "gpo",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-gpo-rpi",
-    source: "gpo",
-    target: "rpi",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-rpi-mrp",
-    source: "rpi",
-    target: "mrp",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-mrp-ets-sanctions",
-    source: "mrp",
-    target: "ets-sanctions",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-ets-sanctions-gbs-aries",
-    source: "ets-sanctions",
-    target: "gbs-aries",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-  {
-    id: "e-gbs-aries-gtms-limits",
-    source: "gbs-aries",
-    target: "gtms-limits",
-    type: "smoothstep",
-    animated: true,
-    style: edgeStyle,
-    markerEnd,
-  },
-]
+function transformApiData() {
+  const sectionCounters: Record<string, number> = {
+    "bg-origination": 0,
+    "bg-validation": 0,
+    "bg-middleware": 0,
+    "bg-processing": 0,
+  }
+
+  const transformedNodes: AppNode[] = apiData.nodes
+    .map((apiNode) => {
+      const parentId = classToParentId[apiNode.class]
+      if (!parentId) return null
+
+      const sectionConfig = sectionPositions[parentId]
+      const positionIndex = sectionCounters[parentId]++
+      const position = sectionConfig.positions[positionIndex] || {
+        x: sectionConfig.baseX,
+        y: 100 + positionIndex * 120,
+      }
+
+      return {
+        id: apiNode.id,
+        type: "custom",
+        position,
+        data: { title: apiNode.data.label, subtext: `AIT ${apiNode.id}` },
+        parentId: parentId,
+        extent: "parent",
+      }
+    })
+    .filter((n): n is AppNode => n !== null)
+
+  const edgeStyle = { stroke: "#6b7280", strokeWidth: 2 }
+  const markerEnd = { type: MarkerType.ArrowClosed, color: "#6b7280" }
+
+  const transformedEdges = apiData.edges.flatMap((apiEdge) => {
+    const { source, target } = apiEdge
+    if (Array.isArray(target)) {
+      // If target is an array, create multiple edges
+      return target.map((t) => ({
+        id: `${source}-${t}`,
+        source: source,
+        target: t,
+        type: "smoothstep",
+        style: edgeStyle, // Use solid line style
+        markerEnd,
+      }))
+    } else {
+      // If target is a single string, create one edge
+      return [
+        {
+          ...apiEdge,
+          target: target,
+          type: "smoothstep",
+          style: edgeStyle, // Use solid line style
+          markerEnd,
+        },
+      ]
+    }
+  })
+
+  return {
+    nodes: [...backgroundNodes, ...transformedNodes],
+    edges: transformedEdges,
+  }
+}
+
+const { nodes, edges } = transformApiData()
+
+export const initialNodes: AppNode[] = nodes
+export const initialEdges: Edge[] = edges

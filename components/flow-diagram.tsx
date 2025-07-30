@@ -45,6 +45,7 @@ const transformNodes = (nodes: AppNode[]): Node[] => {
 
 const SECTION_IDS = ["bg-origination", "bg-validation", "bg-middleware", "bg-processing"]
 const SECTION_WIDTH_PROPORTIONS = [0.2, 0.2, 0.25, 0.35] // Proportions must sum to 1
+const GAP_WIDTH = 16 // The gap between sections in pixels
 
 const Flow = () => {
   // Transform nodes once before setting state
@@ -56,6 +57,8 @@ const Flow = () => {
   useEffect(() => {
     if (width > 0 && height > 0) {
       setNodes((nds) => {
+        const totalGapWidth = GAP_WIDTH * (SECTION_IDS.length - 1)
+        const availableWidth = width - totalGapWidth
         let currentX = 0
         const newNodes = [...nds]
 
@@ -64,7 +67,7 @@ const Flow = () => {
           const nodeIndex = newNodes.findIndex((n) => n.id === sectionId)
 
           if (nodeIndex !== -1) {
-            const sectionWidth = width * SECTION_WIDTH_PROPORTIONS[i]
+            const sectionWidth = availableWidth * SECTION_WIDTH_PROPORTIONS[i]
             newNodes[nodeIndex] = {
               ...newNodes[nodeIndex],
               position: { x: currentX, y: 0 },
@@ -74,7 +77,7 @@ const Flow = () => {
                 height: `${height}px`,
               },
             }
-            currentX += sectionWidth
+            currentX += sectionWidth + GAP_WIDTH
           }
         }
         return newNodes
@@ -98,7 +101,6 @@ const Flow = () => {
         addEdge(
           {
             ...connection,
-            animated: true,
             type: "smoothstep",
             markerEnd: { type: MarkerType.ArrowClosed, color: "#6b7280" },
             style: { strokeWidth: 2, stroke: "#6b7280" },

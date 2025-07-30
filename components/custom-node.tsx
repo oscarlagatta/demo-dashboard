@@ -1,11 +1,11 @@
 import { memo } from "react"
 import { Handle, Position, type NodeProps } from "@xyflow/react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 const CustomNode = ({ data }: NodeProps<{ title: string; subtext: string }>) => {
   return (
-    <Card className="shadow-md bg-gray-100 border-2 border-blue-500">
+    <Card className="shadow-md bg-gray-100 border-2 border-[rgb(10,49,97)]">
       <Handle type="target" position={Position.Left} className="!bg-gray-400 w-2 h-2" />
       <Handle type="source" position={Position.Right} className="!bg-gray-400 w-2 h-2" />
       <Handle type="source" position={Position.Top} className="!bg-gray-400 w-2 h-2" />
@@ -16,15 +16,15 @@ const CustomNode = ({ data }: NodeProps<{ title: string; subtext: string }>) => 
       </CardHeader>
       <CardContent className="p-2 pt-0">
         <div className="flex space-x-1">
-          <Badge variant="secondary" className="text-[9px] h-4 px-1 bg-green-100 text-green-800 hover:bg-green-200">
+          <Button variant="outline" className="h-6 px-2 text-[10px] shadow-sm bg-transparent">
             Flow
-          </Badge>
-          <Badge variant="secondary" className="text-[9px] h-4 px-1 bg-green-100 text-green-800 hover:bg-green-200">
+          </Button>
+          <Button variant="outline" className="h-6 px-2 text-[10px] shadow-sm bg-transparent">
             Trend
-          </Badge>
-          <Badge variant="secondary" className="text-[9px] h-4 px-1 bg-green-100 text-green-800 hover:bg-green-200">
+          </Button>
+          <Button variant="outline" className="h-6 px-2 text-[10px] shadow-sm bg-transparent">
             Balanced
-          </Badge>
+          </Button>
         </div>
       </CardContent>
     </Card>
