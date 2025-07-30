@@ -16,6 +16,7 @@ import {
   MarkerType,
   ReactFlowProvider,
   useViewport,
+  type NodeTypes,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
@@ -23,7 +24,9 @@ import { initialNodes, initialEdges, type AppNode } from "@/lib/flow-data"
 import CustomNode from "./custom-node"
 import SectionBackgroundNode from "./section-background-node"
 
-const nodeTypes = {
+// Explicitly type the nodeTypes object.
+// This ensures all components passed in are compatible with React Flow.
+const nodeTypes: NodeTypes = {
   custom: CustomNode,
   background: SectionBackgroundNode,
 }
