@@ -1,6 +1,11 @@
 import { type Node, type Edge, MarkerType } from "@xyflow/react"
 
-export const initialNodes: Node[] = [
+// Define a custom type for our application's node data, which uses parentId
+export type AppNode = Omit<Node, "parentNode"> & {
+  parentId?: string
+}
+
+export const initialNodes: AppNode[] = [
   // Background Nodes
   {
     id: "bg-origination",
@@ -55,7 +60,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 100 },
     data: { title: "Swift Gateway", subtext: "AIT 11554" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
   {
@@ -63,7 +68,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 220 },
     data: { title: "Loan IQ", subtext: "AIT 48581" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
   {
@@ -71,7 +76,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 340 },
     data: { title: "CashPro Mobile", subtext: "AIT 41107" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
   {
@@ -79,7 +84,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 460 },
     data: { title: "CPO API Gateway", subtext: "AIT 11697" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
   {
@@ -87,7 +92,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 580 },
     data: { title: "B2Bi", subtext: "AIT 54071" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
   {
@@ -95,7 +100,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 50, y: 700 },
     data: { title: "ECS", subtext: "AIT 634" },
-    parentNode: "bg-origination",
+    parentId: "bg-origination",
     extent: "parent",
   },
 
@@ -105,7 +110,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 425, y: 100 },
     data: { title: "Swift Alliance", subtext: "AIT 512" },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
   {
@@ -113,7 +118,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 425, y: 220 },
     data: { title: "GPO", subtext: "AIT 70199" },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
   {
@@ -124,7 +129,7 @@ export const initialNodes: Node[] = [
       title: "CashPro Payments (International & Domestic)",
       subtext: "AIT 28960",
     },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
   {
@@ -132,7 +137,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 425, y: 480 },
     data: { title: "FRP US", subtext: "AIT 15227" },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
   {
@@ -140,7 +145,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 425, y: 590 },
     data: { title: "PSH", subtext: "AIT 31427" },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
   {
@@ -148,7 +153,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 425, y: 700 },
     data: { title: "ECS", subtext: "AIT 834" },
-    parentNode: "bg-validation",
+    parentId: "bg-validation",
     extent: "parent",
   },
 
@@ -158,7 +163,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 750, y: 220 },
     data: { title: "RPI", subtext: "AIT 60745" },
-    parentNode: "bg-middleware",
+    parentId: "bg-middleware",
     extent: "parent",
   },
   {
@@ -166,7 +171,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 950, y: 400 },
     data: { title: "MRP", subtext: "AIT 4679" },
-    parentNode: "bg-middleware",
+    parentId: "bg-middleware",
     extent: "parent",
   },
 
@@ -176,7 +181,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1200, y: 160 },
     data: { title: "GBS Aries", subtext: "AIT 515" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
   {
@@ -184,7 +189,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1420, y: 160 },
     data: { title: "GTMS (Limits)", subtext: "AIT 62686" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
   {
@@ -192,7 +197,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1310, y: 300 },
     data: { title: "ETS (Sanctions)", subtext: "AIT 46951" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
   {
@@ -200,7 +205,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1310, y: 420 },
     data: { title: "GFD (Fraud)", subtext: "AIT 73929" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
   {
@@ -208,7 +213,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1200, y: 580 },
     data: { title: "WTX / RGW", subtext: "AIT 1901 / 882" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
   {
@@ -216,7 +221,7 @@ export const initialNodes: Node[] = [
     type: "custom",
     position: { x: 1200, y: 700 },
     data: { title: "RTFP", subtext: "AIT 74014" },
-    parentNode: "bg-processing",
+    parentId: "bg-processing",
     extent: "parent",
   },
 ]

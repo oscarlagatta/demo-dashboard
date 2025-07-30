@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useMemo } from "react"
 import {
   ReactFlow,
   Background,
@@ -19,7 +19,7 @@ import {
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
-import { initialNodes, initialEdges } from "@/lib/flow-data"
+import { initialNodes, initialEdges, type AppNode } from "@/lib/flow-data"
 import CustomNode from "./custom-node"
 import SectionBackgroundNode from "./section-background-node"
 
@@ -28,11 +28,25 @@ const nodeTypes = {
   background: SectionBackgroundNode,
 }
 
+// This function transforms our app's node data (with `parentId`)
+// into the format React Flow expects (with `parentNode`).
+const transformNodes = (nodes: AppNode[]): Node[] => {
+  return nodes.map((node) => {
+    if (node.parentId) {
+      const { parentId, ...rest } = node
+      return { ...rest, parentNode: parentId }
+    }
+    return node as Node
+  })
+}
+
 const SECTION_IDS = ["bg-origination", "bg-validation", "bg-middleware", "bg-processing"]
 const SECTION_WIDTH_PROPORTIONS = [0.2, 0.2, 0.25, 0.35] // Proportions must sum to 1
 
 const Flow = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes)
+  // Transform nodes once before setting state
+  const reactFlowNodes = useMemo(() => transformNodes(initialNodes), [])
+  const [nodes, setNodes] = useState<Node[]>(reactFlowNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
   const { width, height } = useViewport()
 
