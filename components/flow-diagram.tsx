@@ -17,7 +17,7 @@ import {
   ReactFlowProvider,
   useViewport,
   type NodeTypes,
-  type EdgeTypes,
+  type EdgeTypes, useStore,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
@@ -58,7 +58,9 @@ const Flow = () => {
   const reactFlowNodes = useMemo(() => transformNodes(initialNodes), [])
   const [nodes, setNodes] = useState<Node[]>(reactFlowNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
-  const { width, height } = useViewport()
+  const width = useStore((state) => state.width);
+  const height = useStore((state) => state.height);
+
 
   useEffect(() => {
     if (width > 0 && height > 0) {

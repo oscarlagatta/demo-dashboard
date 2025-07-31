@@ -3,6 +3,12 @@
 import { BaseEdge, getSmoothStepPath, type EdgeProps } from "@xyflow/react"
 import { useMemo } from "react"
 
+// Define the shape of the edge data
+interface ParallelEdgeData {
+  parallelIndex?: number;
+}
+
+
 // This function calculates the perpendicular offset for a given edge.
 function getEdgeOffset(sourceX: number, sourceY: number, targetX: number, targetY: number, index: number) {
   const dx = targetX - sourceX
@@ -37,7 +43,7 @@ export default function ParallelEdge({
 
   // Calculate the offset based on the edge's position.
   const { offsetX, offsetY } = useMemo(
-    () => getEdgeOffset(sourceX, sourceY, targetX, targetY, parallelIndex),
+    () => getEdgeOffset(sourceX, sourceY, targetX, targetY, parallelIndex as number),
     [sourceX, sourceY, targetX, targetY, parallelIndex],
   )
 

@@ -1,9 +1,17 @@
 import { memo } from "react"
-import { Handle, Position, type NodeProps } from "@xyflow/react"
+import { Handle, Position, NodeProps, Node  } from "@xyflow/react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-const CustomNode = ({ data }: NodeProps<{ title: string; subtext: string }>) => {
+export type CustomNodeData = {
+    title: string;
+    subtext: string;
+}
+
+export type CustomNodeType = Node<CustomNodeData, 'custom'>;
+
+
+const CustomNode = ({ data }: NodeProps<CustomNodeType>) => {
   return (
     <Card className="shadow-md bg-gray-100 border-2 border-[rgb(10,49,97)] w-60">
       {/* Multiple target handles on the left side to avoid edge overlap */}
