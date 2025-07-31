@@ -17,7 +17,7 @@ import {
   ReactFlowProvider,
   useViewport,
   type NodeTypes,
-  type EdgeTypes, useStore,
+  type EdgeTypes,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
@@ -25,12 +25,14 @@ import { initialNodes, initialEdges, type AppNode } from "@/lib/flow-data"
 import CustomNode from "./custom-node"
 import SectionBackgroundNode from "./section-background-node"
 import ParallelEdge from "./parallel-edge"
+import GroupNode from "./group-node"
 
 // Explicitly type the nodeTypes object.
 // This ensures all components passed in are compatible with React Flow.
 const nodeTypes: NodeTypes = {
   custom: CustomNode,
   background: SectionBackgroundNode,
+  group: GroupNode,
 }
 
 const edgeTypes: EdgeTypes = {
@@ -58,9 +60,7 @@ const Flow = () => {
   const reactFlowNodes = useMemo(() => transformNodes(initialNodes), [])
   const [nodes, setNodes] = useState<Node[]>(reactFlowNodes)
   const [edges, setEdges] = useState<Edge[]>(initialEdges)
-  const width = useStore((state) => state.width);
-  const height = useStore((state) => state.height);
-
+  const { width, height } = useViewport()
 
   useEffect(() => {
     if (width > 0 && height > 0) {
@@ -110,6 +110,7 @@ const Flow = () => {
           {
             ...connection,
             type: "parallel",
+            markerStart: { type: MarkerType.ArrowClosed, color: "#6b7280" },
             markerEnd: { type: MarkerType.ArrowClosed, color: "#6b7280" },
             style: { strokeWidth: 2, stroke: "#6b7280" },
           },

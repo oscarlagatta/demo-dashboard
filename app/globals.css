@@ -6,6 +6,10 @@
   .text-balance {
     text-wrap: balance;
   }
+  .dots-pattern {
+    background-image: radial-gradient(circle, #93c5fd 1px, rgba(0, 0, 0, 0) 1px);
+    background-size: 16px 16px;
+  }
 }
 
 @layer base {
@@ -87,4 +91,17 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Edge hover effect styles */
+.react-flow__edge-parallel:hover path {
+  stroke: #10b981;
+  transition: stroke 0.2s ease-in-out;
+}
+
+.react-flow__edge-parallel:hover .react-flow__marker-end path,
+.react-flow__edge-parallel:hover .react-flow__marker-start path {
+  fill: #10b981;
+  stroke: #10b981;
+  transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
 }

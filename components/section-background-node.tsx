@@ -1,13 +1,6 @@
-import type { NodeProps, Node } from "@xyflow/react"
-export type SectionBackgroundData = {
-    title: string;
-    color: string;
-}
+import type { NodeProps } from "@xyflow/react"
 
-// Define the complete node type
-export type SectionBackgroundNodeType = Node<SectionBackgroundData, 'sectionBackground'>;
-
-const SectionBackgroundNode = ({ data }: NodeProps<SectionBackgroundNodeType>) => {
+const SectionBackgroundNode = ({ data }: NodeProps<{ title: string }>) => {
   return (
     <div className="h-full w-full rounded-lg border-2 border-gray-300 [border-style:inset]">
       <div className="p-4">

@@ -94,10 +94,10 @@ const sectionPositions: Record<string, { baseX: number; positions: { x: number; 
     positions: [
       { x: 1200, y: 160 },
       { x: 1420, y: 160 },
-      { x: 1310, y: 300 },
-      { x: 1310, y: 420 },
-      { x: 1200, y: 580 },
-      { x: 1200, y: 700 },
+      { x: 1310, y: 300 }, // GTMS (10)
+      { x: 1310, y: 420 }, // Some other node
+      { x: 1200, y: 580 }, // ETS (13)
+      { x: 1200, y: 700 }, // GFD (14)
       { x: 1200, y: 820 },
     ],
   },
@@ -135,7 +135,7 @@ function transformApiData() {
     .filter((n): n is AppNode => n !== null)
 
   const edgeStyle = { stroke: "#6b7280", strokeWidth: 2 }
-  const markerEnd = { type: MarkerType.ArrowClosed, color: "#6b7280" }
+  const markerProps = { type: MarkerType.ArrowClosed, color: "#6b7280" }
 
   const targetHandleCounters: Record<string, number> = {}
   const handleIds = ["a", "b", "c", "d", "e", "f"]
@@ -189,14 +189,68 @@ function transformApiData() {
       target,
       type: "parallel", // Use the new custom edge type
       style: edgeStyle,
-      markerEnd,
+      markerStart: markerProps,
+      markerEnd: markerProps,
       targetHandle,
       data, // Pass the parallelIndex to the edge component
     }
   })
 
+  // --- Grouping Logic ---
+  const groupNodeId = "scanning-credit-group"
+  const nodesToGroupId = ["10", "13", "14"] // GTMS, ETS, GFD
+
+  const nodesToGroup = transformedNodes.filter((n) => nodesToGroupId.includes(n.id))
+  const otherNodes = transformedNodes.filter((n) => !nodesToGroupId.includes(n.id))
+
+  let finalNodes = [...backgroundNodes, ...transformedNodes]
+
+  if (nodesToGroup.length === nodesToGroupId.length) {
+    const nodeWidth = 192 // w-48
+    const nodeHeight = 80 // h-20
+    const padding = 20
+
+    let minX = Number.POSITIVE_INFINITY,
+      minY = Number.POSITIVE_INFINITY,
+      maxX = Number.NEGATIVE_INFINITY,
+      maxY = Number.NEGATIVE_INFINITY
+
+    nodesToGroup.forEach((node) => {
+      minX = Math.min(minX, node.position.x)
+      minY = Math.min(minY, node.position.y)
+      maxX = Math.max(maxX, node.position.x + nodeWidth)
+      maxY = Math.max(maxY, node.position.y + nodeHeight)
+    })
+
+    const groupPosition = { x: minX - padding, y: minY - padding }
+    const groupWidth = maxX - minX + padding * 2
+    const groupHeight = maxY - minY + padding * 2
+
+    const groupNode: AppNode = {
+      id: groupNodeId,
+      type: "group",
+      position: groupPosition,
+      data: { label: "Scanning & Credit" },
+      parentId: "bg-processing",
+      zIndex: 0,
+      style: { width: `${groupWidth}px`, height: `${groupHeight}px` },
+    }
+
+    const updatedNodesToGroup = nodesToGroup.map((node) => ({
+      ...node,
+      parentId: groupNodeId,
+      position: {
+        x: node.position.x - groupPosition.x,
+        y: node.position.y - groupPosition.y,
+      },
+      extent: "parent",
+    }))
+
+    finalNodes = [...backgroundNodes, ...otherNodes, groupNode, ...updatedNodesToGroup]
+  }
+
   return {
-    nodes: [...backgroundNodes, ...transformedNodes],
+    nodes: finalNodes,
     edges: transformedEdges,
   }
 }
