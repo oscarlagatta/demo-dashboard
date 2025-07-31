@@ -137,29 +137,61 @@ function transformApiData() {
   const edgeStyle = { stroke: "#6b7280", strokeWidth: 2 }
   const markerEnd = { type: MarkerType.ArrowClosed, color: "#6b7280" }
 
-  const transformedEdges = apiData.edges.flatMap((apiEdge) => {
-    const { source, target } = apiEdge
-    if (Array.isArray(target)) {
-      // If target is an array, create multiple edges
-      return target.map((t) => ({
-        id: `${source}-${t}`,
-        source: source,
-        target: t,
-        type: "smoothstep",
-        style: edgeStyle, // Use solid line style
-        markerEnd,
-      }))
+  const targetHandleCounters: Record<string, number> = {}
+  const handleIds = ["a", "b", "c", "d", "e", "f"]
+
+  const allEdges: { source: string; target: string }[] = []
+  apiData.edges.forEach((apiEdge) => {
+    if (Array.isArray(apiEdge.target)) {
+      apiEdge.target.forEach((t) => {
+        allEdges.push({ source: apiEdge.source, target: t })
+      })
     } else {
-      // If target is a single string, create one edge
-      return [
-        {
-          ...apiEdge,
-          target: target,
-          type: "smoothstep",
-          style: edgeStyle, // Use solid line style
-          markerEnd,
-        },
-      ]
+      allEdges.push({ source: apiEdge.source, target: apiEdge.target })
+    }
+  })
+
+  // Group edges by their source and target nodes
+  const edgeGroups = allEdges.reduce(
+    (acc, edge) => {
+      const key = `${edge.source}->${edge.target}`
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key].push(edge)
+      return acc
+    },
+    {} as Record<string, { source: string; target: string }[]>,
+  )
+
+  const processedEdges = Object.values(edgeGroups).flatMap((group) => {
+    const groupSize = group.length
+    return group.map((edge, i) => ({
+      ...edge,
+      data: {
+        // Calculate a parallelIndex centered around 0
+        parallelIndex: groupSize > 1 ? i - (groupSize - 1) / 2 : 0,
+      },
+    }))
+  })
+
+  const transformedEdges = processedEdges.map(({ source, target, data }) => {
+    if (!targetHandleCounters[target]) {
+      targetHandleCounters[target] = 0
+    }
+    const handleIndex = targetHandleCounters[target]
+    const targetHandle = handleIds[handleIndex % handleIds.length]
+    targetHandleCounters[target]++
+
+    return {
+      id: `${source}-${target}-${targetHandle}`,
+      source,
+      target,
+      type: "parallel", // Use the new custom edge type
+      style: edgeStyle,
+      markerEnd,
+      targetHandle,
+      data, // Pass the parallelIndex to the edge component
     }
   })
 

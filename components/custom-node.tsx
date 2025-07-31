@@ -5,13 +5,20 @@ import { Button } from "@/components/ui/button"
 
 const CustomNode = ({ data }: NodeProps<{ title: string; subtext: string }>) => {
   return (
-    <Card className="shadow-md bg-gray-100 border-2 border-[rgb(10,49,97)]">
-      <Handle type="target" position={Position.Left} className="!bg-gray-400 w-2 h-2" />
+    <Card className="shadow-md bg-gray-100 border-2 border-[rgb(10,49,97)] w-60">
+      {/* Multiple target handles on the left side to avoid edge overlap */}
+      <Handle type="target" position={Position.Left} id="a" className="!bg-gray-400 w-2 h-2" style={{ top: "25%" }} />
+      <Handle type="target" position={Position.Left} id="b" className="!bg-gray-400 w-2 h-2" style={{ top: "75%" }} />
+      <Handle type="target" position={Position.Left} id="c" className="!bg-gray-400 w-2 h-2" style={{ top: "40%" }} />
+      <Handle type="target" position={Position.Left} id="d" className="!bg-gray-400 w-2 h-2" style={{ top: "60%" }} />
+
+      {/* Default source handles */}
       <Handle type="source" position={Position.Right} className="!bg-gray-400 w-2 h-2" />
       <Handle type="source" position={Position.Top} className="!bg-gray-400 w-2 h-2" />
       <Handle type="source" position={Position.Bottom} className="!bg-gray-400 w-2 h-2" />
+
       <CardHeader className="p-2">
-        <CardTitle className="text-xs font-bold whitespace-nowrap">{data.title}</CardTitle>
+        <CardTitle className="text-xs font-bold">{data.title}</CardTitle>
         <p className="text-[10px] text-muted-foreground">{data.subtext}</p>
       </CardHeader>
       <CardContent className="p-2 pt-0">

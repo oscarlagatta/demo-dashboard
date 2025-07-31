@@ -17,18 +17,24 @@ import {
   ReactFlowProvider,
   useViewport,
   type NodeTypes,
+  type EdgeTypes,
 } from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
 
 import { initialNodes, initialEdges, type AppNode } from "@/lib/flow-data"
 import CustomNode from "./custom-node"
 import SectionBackgroundNode from "./section-background-node"
+import ParallelEdge from "./parallel-edge"
 
 // Explicitly type the nodeTypes object.
 // This ensures all components passed in are compatible with React Flow.
 const nodeTypes: NodeTypes = {
   custom: CustomNode,
   background: SectionBackgroundNode,
+}
+
+const edgeTypes: EdgeTypes = {
+  parallel: ParallelEdge,
 }
 
 // This function transforms our app's node data (with `parentId`)
@@ -101,7 +107,7 @@ const Flow = () => {
         addEdge(
           {
             ...connection,
-            type: "smoothstep",
+            type: "parallel",
             markerEnd: { type: MarkerType.ArrowClosed, color: "#6b7280" },
             style: { strokeWidth: 2, stroke: "#6b7280" },
           },
@@ -119,6 +125,7 @@ const Flow = () => {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       proOptions={{ hideAttribution: true }}
       className="bg-white"
     >
