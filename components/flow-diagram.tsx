@@ -19,7 +19,6 @@ import {
   type NodeTypes,
   type EdgeTypes,
 } from "@xyflow/react"
-import "@xyflow/react/dist/style.css"
 
 import { initialNodes, initialEdges, type AppNode } from "@/lib/flow-data"
 import CustomNode from "./custom-node"
