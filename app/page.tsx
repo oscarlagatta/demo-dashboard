@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import FlowDiagram from "@/components/flow-diagram"
+import { Calendar } from "lucide-react"
 
 export default function Home() {
   return (
@@ -24,11 +25,17 @@ export default function Home() {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="date-start">Date Range (Start)</Label>
-                <Input type="date" id="date-start" />
+                <div className="relative">
+                  <Input type="date" id="date-start" className="pr-10" />
+                  <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="date-end">Date Range (End)</Label>
-                <Input type="date" id="date-end" />
+                <div className="relative">
+                  <Input type="date" id="date-end" className="pr-10" />
+                  <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                </div>
               </div>
             </div>
           </CardContent>
